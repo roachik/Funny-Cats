@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Funny Cats System</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <link href="fonts/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="css/animate.min.css" rel="stylesheet"/>
+
+    <link href="/css/custom.css" rel="stylesheet"/>
+    <link href="/css/icheck/flat/green.css" rel="stylesheet"/>
+
+
+    <script src="/js/jquery.min.js"></script>
+
+</head>
+
+
+<body class="nav-md">
+
+<div class="container body">
+
+
+    <div class="main_container">
+
+        <div th:replace="fragments/header :: header"></div>
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>User Profile</h3>
+                    </div>
+
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for..."/>
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Anton Buichik</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a href="#"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+
+                                    <li><a href="#"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+
+                                    <div class="profile_img">
+
+                                        <!-- end of image cropping -->
+
+
+                                    </div>
+                                    <h3>Anton Buichik</h3>
+
+                                    <ul class="list-unstyled user_data">
+                                        <li><i class="fa fa-map-marker user-profile-icon"></i> Russia
+                                        </li>
+
+                                        <li>
+                                            <i class="fa fa-briefcase user-profile-icon"></i> CEO
+                                        </li>
+
+                                        <li class="m-top-xs">
+                                            <i class="fa fa-external-link user-profile-icon"></i>
+                                            www.ex.ru
+                                        </li>
+                                    </ul>
+
+                                    <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                                    <br />
+
+
+
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Подчинённые</a>
+                                            </li>
+
+                                        </ul>
+                                        <div id="myTabContent" class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+                                                <table class="data table table-striped no-margin">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Имя</th>
+                                                        <th>Должность</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Name</td>
+                                                        <td>Должность</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Name</td>
+                                                        <td>Должность</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Name</td>
+                                                        <td>Должность</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>Name</td>
+                                                        <td>Должность</td>
+
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>
