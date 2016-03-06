@@ -21,14 +21,6 @@ public class Schedules {
     @JoinColumn(name="positionId")
     private Positions positionId;
 
-    public void setDepartmentId(Departments departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public void setPositionId(Positions positionId) {
-        this.positionId = positionId;
-    }
-
     @Column(name="number")
     private int number;
 
@@ -46,5 +38,21 @@ public class Schedules {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public Positions getPositionId() {
+        return positionId;
+    }
+
+    public Departments getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Departments departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public void setPositionId(Positions positionId) {
+        this.positionId = positionId;
     }
 }

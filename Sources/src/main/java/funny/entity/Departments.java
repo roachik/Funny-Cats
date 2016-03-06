@@ -19,6 +19,10 @@ public class Departments {
     @Column(name="name")
     private String name;
 
+    //Означает, что нет в БД в таблице такого поля, чтобы гибернейт не проверял его в базе.
+    @Transient
+    private boolean hasChilds;
+
     public int getDepartmentId() {
         return departmentId;
     }
@@ -41,5 +45,13 @@ public class Departments {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isHasChilds() {
+        return hasChilds;
+    }
+
+    public void setHasChilds(boolean hasChilds) {
+        this.hasChilds = hasChilds;
     }
 }
