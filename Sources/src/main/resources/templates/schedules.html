@@ -19,7 +19,6 @@
                     <div class="title_left">
                         <h3 th:utext="${breadcrumbs}"></h3>
                     </div>
-
                     <div class="title_right">
                         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                             <div class="input-group">
@@ -32,19 +31,15 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-
                 <div class="row">
                     <div class="col-md-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Подразделения</h2>
-                                <div class="nav navbar-right"><a class="btn btn-sm btn-primary" th:href="@{'/departments/add'(id=${param.id})}"><i class="fa fa-plus"></i> Создать</a></div>
+                                <h2>Штатное расписание</h2>
+                                <div class="nav navbar-right"><a class="btn btn-sm btn-primary" th:href="@{'/schedules/add'(id=${param.id})}"><i class="fa fa-plus"></i> Создать</a></div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-
-
-
                                 <!-- start project list -->
                                 <table class="table table-striped projects">
                                     <thead>
@@ -56,26 +51,23 @@
                                     </thead>
                                     <tbody>
 
-                                    <tr th:each="dep : ${table}">
+                                    <tr th:each="pos : ${table}">
                                         <td>#</td>
                                         <td>
-                                            <a th:href="|/departments?id=${dep.departmentId}|" th:text="${dep.name}"></a>
-
+                                            <a th:href="@{'/employersofstaffs/'(dep=${pos.getDepartment().getDepartmentId()},pos=${pos.getPosition().getPositionId()})}" th:text="${pos.getPosition().getName()}"></a>
                                             <br />
                                             <small>Создано 18.02.2016</small>
                                         </td>
-
                                         <td>
-                                            <a th:href="|/schedules?id=${dep.departmentId}|" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Штатное расписание</a>
-                                            <a th:href="|/departments/edit?id=${dep.departmentId}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить </a>
-                                            <a th:href="|/departments/delete?id=${dep.departmentId}|" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
+                                            <a th:href="|/positions/edit?id=${pos.getPosition().getPositionId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить должность</a>
+                                            <a th:href="|/schedules/edit?id=${pos.getScheduleId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить ставку</a>
+                                            <a th:href="@{'/schedules/delete'(id=${pos.getScheduleId()})}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
                                         </td>
                                     </tr>
 
                                     </tbody>
                                 </table>
                                 <!-- end project list -->
-
                             </div>
                         </div>
                     </div>

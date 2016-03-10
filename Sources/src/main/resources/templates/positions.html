@@ -36,6 +36,7 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2>Должности</h2>
+                                <div class="nav navbar-right"><a class="btn btn-sm btn-primary" th:href="@{'/positions/add'}"><i class="fa fa-plus"></i> Создать</a></div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -53,13 +54,13 @@
                                     <tr th:each="pos : ${table}">
                                         <td>#</td>
                                         <td>
-                                            <a href="#" th:text="${pos.getPositionId().getName()}"></a>
+                                            <a href="#" th:text="${pos.getName()}"></a>
                                             <br />
                                             <small>Создано 18.02.2016</small>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить </a>
-                                            <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
+                                            <a th:href="|/positions/edit?id=${pos.getPositionId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить </a>
+                                            <a th:href="@{'/positions/delete'(id=${pos.getPositionId()})}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
                                         </td>
                                     </tr>
 

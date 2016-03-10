@@ -16,7 +16,7 @@ public class EmployersHistory {
 
     @ManyToOne
     @JoinColumn(name="employerId")
-    private Employers employerId;
+    private Employer employerId;
 
     @Column(name="currentEmployerId")
     private int currentEmployerId;
@@ -48,11 +48,11 @@ public class EmployersHistory {
         this.currentEmployerId = currentEmployerId;
     }
 
-    public Employers getEmployerId() {
+    public Employer getEmployerId() {
         return employerId;
     }
 
-    public void setEmployerId(Employers employerId) {
+    public void setEmployerId(Employer employerId) {
         this.employerId = employerId;
     }
 

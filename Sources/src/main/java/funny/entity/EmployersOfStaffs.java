@@ -15,15 +15,15 @@ public class EmployersOfStaffs {
 
     @ManyToOne
     @JoinColumn(name="departmentId")
-    private Departments departmentId;
+    private Department department;
 
     @ManyToOne
     @JoinColumn(name="positionId")
-    private Positions positionId;
+    private Position position;
 
     @ManyToOne
     @JoinColumn(name="employerId")
-    private Employers employerId;
+    private Employer employer;
 
     @Column(name="part")
     private double part;
@@ -36,28 +36,28 @@ public class EmployersOfStaffs {
         this.staffId = staffId;
     }
 
-    public Departments getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(Departments departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department departmentId) {
+        this.department = departmentId;
     }
 
-    public Positions getPositionId() {
-        return positionId;
+    public Position getPosition() {
+        return position;
     }
 
-    public void setPositionId(Positions positionId) {
-        this.positionId = positionId;
+    public void setPosition(Position positionId) {
+        this.position = positionId;
     }
 
-    public Employers getEmployerId() {
-        return employerId;
+    public Employer getEmployer() {
+        return employer;
     }
 
-    public void setEmployerId(Employers employerId) {
-        this.employerId = employerId;
+    public void setEmployer(Employer employerId) {
+        this.employer = employerId;
     }
 
     public double getPart() {
