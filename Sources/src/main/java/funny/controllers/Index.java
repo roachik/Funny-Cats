@@ -21,6 +21,6 @@ public class Index extends Base {
     public String index(Model model) {
         HttpSession session = getSession();
         putModel(model);
-        return (session.getAttribute("auth")!=null)?"index":"login";
+        return (session.getAttribute("auth")!=null)?"redirect:/departments":"login";
     }
 }

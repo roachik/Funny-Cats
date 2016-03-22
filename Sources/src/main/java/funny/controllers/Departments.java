@@ -51,7 +51,7 @@ public class Departments extends Base {
     public String add(Model model,@RequestParam(value="id",required = false) String id,
                       @RequestParam(value="name",required = false) String name) throws SQLException {
         if(name != null){
-            if(id == null) id = "0";
+            if(id == null || id.length() == 0) id = "0";
             ModelDepartments.add(Integer.parseInt(id),name);
             return "redirect:/departments?id="+id;
         }

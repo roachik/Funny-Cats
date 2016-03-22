@@ -14,6 +14,10 @@ import java.util.Map;
  */
 public class Base {
 
+    protected static Integer USER_ROLE_USER = 0;
+    protected static Integer USER_ROLE_MANAGER = 1;
+    protected static Integer USER_ROLE_CHIEF = 2;
+
     protected HttpSession getSession(){
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest().getSession(true);
@@ -22,7 +26,9 @@ public class Base {
     protected void putModel(Model model) {
         HttpSession session = getSession();
         model.addAttribute("name",session.getAttribute("name"));
+        model.addAttribute("role",session.getAttribute("role"));
     }
+
 
     protected String getBreadcrumbs(ArrayList<String> breads)
     {

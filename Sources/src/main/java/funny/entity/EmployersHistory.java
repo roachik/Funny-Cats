@@ -11,7 +11,7 @@ import java.util.Date;
 public class EmployersHistory {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int historyId;
 
     @ManyToOne

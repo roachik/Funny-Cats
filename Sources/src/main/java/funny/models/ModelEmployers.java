@@ -27,7 +27,7 @@ public class ModelEmployers extends ModelMain{
         return list!=null?list:new ArrayList<EmployersOfStaffs>();
     }
 
-    public static void updateStaff(int id,double part) {
+    public static void updateStaff(int id,double part,int active) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
         EmployersOfStaffs s = dbsession.get(EmployersOfStaffs.class, id);
 
@@ -55,6 +55,7 @@ public class ModelEmployers extends ModelMain{
         if(sum <= max && part <=1) {
             dbsession.beginTransaction();
             s.setPart(part);
+            s.setIsActive(active);
             dbsession.update(s);
             dbsession.getTransaction().commit();
         }
@@ -85,6 +86,7 @@ public class ModelEmployers extends ModelMain{
         List<Schedule> lists = cs.list();
         int max = lists.get(0).getNumber();
         if(sum <= max && part <=1) {
+            dbsession = HibernateSessionFactory.getSessionFactory().openSession();
             dbsession.beginTransaction();
             EmployersOfStaffs s = new EmployersOfStaffs();
             s.setPart(part);

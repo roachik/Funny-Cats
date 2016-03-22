@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Schedule {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int scheduleId;
 
     @ManyToOne

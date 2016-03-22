@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class EmployersOfStaffs {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int staffId;
 
     @ManyToOne
@@ -27,6 +27,9 @@ public class EmployersOfStaffs {
 
     @Column(name="part")
     private double part;
+
+    @Column(name="active")
+    private int isActive;
 
     public int getStaffId() {
         return staffId;
@@ -66,5 +69,13 @@ public class EmployersOfStaffs {
 
     public void setPart(double part) {
         this.part = part;
+    }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
     }
 }

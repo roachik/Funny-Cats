@@ -6,13 +6,11 @@ import funny.entity.Employer;
 import funny.entity.EmployersOfStaffs;
 import funny.entity.Position;
 import funny.entity.Schedule;
-import funny.models.ModelDepartments;
-import funny.models.ModelEmployers;
-import funny.models.ModelPositions;
-import funny.models.ModelSchedules;
+import funny.models.*;
 import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,6 +30,9 @@ public class Employers extends Base {
         putModel(model);
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
+        Employer e = (Employer) getSession().getAttribute("emp");
+        model.addAttribute("role", ModelMain.getRoleForDep(Integer.parseInt(dep),Integer.parseInt(pos),
+                e.getEmployerId()));
         return "employersofstaffs";
     }
 
@@ -56,12 +57,18 @@ public class Employers extends Base {
     }
 
     @RequestMapping("/employersofstaffs/edit")
-    public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,@RequestParam(value="id",required = true) String id) throws SQLException {
+    public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,
+                                       @RequestParam(value="id",required = true) String id,
+                                       @RequestParam(value="active",required = false) String active) throws SQLException {
         if(part != null){
-            ModelEmployers.updateStaff(Integer.parseInt(id),Double.parseDouble(part));
+            ModelEmployers.updateStaff(Integer.parseInt(id),Double.parseDouble(part),Integer.parseInt(active));
         }
         putModel(model);
-        model.addAttribute("info", ModelEmployers.getEmployerOfStaff(Integer.parseInt(id)));
+        EmployersOfStaffs e = ModelEmployers.getEmployerOfStaff(Integer.parseInt(id));
+        model.addAttribute("info", e);
+        Employer em = (Employer) getSession().getAttribute("emp");
+        model.addAttribute("role", ModelMain.getRoleForDep(e.getDepartment().getDepartmentId(),e.getPosition().getPositionId(),
+                em.getEmployerId()));
         return "edit_employerofstaff";
     }
 

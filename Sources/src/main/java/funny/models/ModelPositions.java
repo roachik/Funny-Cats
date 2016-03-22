@@ -23,11 +23,12 @@ public class ModelPositions extends ModelMain {
         return list;
     }
 
-    public static void add(String name) {
+    public static void add(String name,int role) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
         dbsession.beginTransaction();
         Position d = new Position();
         d.setName(name);
+        d.setRole(role);
         dbsession.save(d);
         dbsession.getTransaction().commit();
     }
@@ -42,11 +43,12 @@ public class ModelPositions extends ModelMain {
         return list!=null?list.get(0):null;
     }
 
-    public static void updatePosition(int id,String name) {
+    public static void updatePosition(int id,String name,int role) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
         dbsession.beginTransaction();
         Position pos = dbsession.get(Position.class, id);
         pos.setName(name);
+        pos.setRole(role);
         dbsession.update(pos);
         dbsession.getTransaction().commit();
     }

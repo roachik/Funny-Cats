@@ -1,0 +1,488 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.11
+-- Dumped by pg_dump version 9.3.11
+-- Started on 2016-03-23 00:06:50
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 1 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2005 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 176 (class 1259 OID 16981)
+-- Name: departments; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE departments (
+    departmentid integer NOT NULL,
+    name character varying(255),
+    parent_id integer
+);
+
+
+ALTER TABLE public.departments OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 16644)
+-- Name: departments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE departments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.departments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 16986)
+-- Name: employers; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE employers (
+    employerid integer NOT NULL,
+    info character varying(255),
+    is_dismissed boolean,
+    name character varying(255),
+    new_id integer
+);
+
+
+ALTER TABLE public.employers OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 16647)
+-- Name: employers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE employers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.employers_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 16994)
+-- Name: employershistory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE employershistory (
+    historyid integer NOT NULL,
+    currentemployerid integer,
+    enddate timestamp without time zone,
+    event character varying(255),
+    startdate timestamp without time zone,
+    employerid integer
+);
+
+
+ALTER TABLE public.employershistory OWNER TO postgres;
+
+--
+-- TOC entry 179 (class 1259 OID 16999)
+-- Name: employersofstaffs; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE employersofstaffs (
+    staffid integer NOT NULL,
+    active integer,
+    part double precision,
+    departmentid integer,
+    employerid integer,
+    positionid integer
+);
+
+
+ALTER TABLE public.employersofstaffs OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16639)
+-- Name: employersofstaffs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE employersofstaffs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.employersofstaffs_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 16979)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 17004)
+-- Name: positions; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE positions (
+    positionid integer NOT NULL,
+    info character varying(255),
+    name character varying(255),
+    role integer
+);
+
+
+ALTER TABLE public.positions OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 16650)
+-- Name: positions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE positions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.positions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 17012)
+-- Name: schedules; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE schedules (
+    scheduleid integer NOT NULL,
+    number integer,
+    departmentid integer,
+    positionid integer
+);
+
+
+ALTER TABLE public.schedules OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 17017)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    userid integer NOT NULL,
+    admin boolean,
+    name character varying(255),
+    password character varying(255),
+    employerid integer
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 1991 (class 0 OID 16981)
+-- Dependencies: 176
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY departments (departmentid, name, parent_id) FROM stdin;
+3	1	0
+\.
+
+
+--
+-- TOC entry 2006 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('departments_id_seq', 1, false);
+
+
+--
+-- TOC entry 1992 (class 0 OID 16986)
+-- Dependencies: 177
+-- Data for Name: employers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY employers (employerid, info, is_dismissed, name, new_id) FROM stdin;
+1	\N	f	anton	0
+\.
+
+
+--
+-- TOC entry 2007 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: employers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('employers_id_seq', 1, false);
+
+
+--
+-- TOC entry 1993 (class 0 OID 16994)
+-- Dependencies: 178
+-- Data for Name: employershistory; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY employershistory (historyid, currentemployerid, enddate, event, startdate, employerid) FROM stdin;
+\.
+
+
+--
+-- TOC entry 1994 (class 0 OID 16999)
+-- Dependencies: 179
+-- Data for Name: employersofstaffs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY employersofstaffs (staffid, active, part, departmentid, employerid, positionid) FROM stdin;
+5	0	1	3	1	1
+\.
+
+
+--
+-- TOC entry 2008 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: employersofstaffs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('employersofstaffs_id_seq', 4, true);
+
+
+--
+-- TOC entry 2009 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('hibernate_sequence', 5, true);
+
+
+--
+-- TOC entry 1995 (class 0 OID 17004)
+-- Dependencies: 180
+-- Data for Name: positions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY positions (positionid, info, name, role) FROM stdin;
+1	\N	1	2
+\.
+
+
+--
+-- TOC entry 2010 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: positions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('positions_id_seq', 1, false);
+
+
+--
+-- TOC entry 1996 (class 0 OID 17012)
+-- Dependencies: 181
+-- Data for Name: schedules; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY schedules (scheduleid, number, departmentid, positionid) FROM stdin;
+4	1	3	1
+\.
+
+
+--
+-- TOC entry 1997 (class 0 OID 17017)
+-- Dependencies: 182
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (userid, admin, name, password, employerid) FROM stdin;
+1	t	anton	123	1
+\.
+
+
+--
+-- TOC entry 1859 (class 2606 OID 16985)
+-- Name: departments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY departments
+    ADD CONSTRAINT departments_pkey PRIMARY KEY (departmentid);
+
+
+--
+-- TOC entry 1861 (class 2606 OID 16993)
+-- Name: employers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY employers
+    ADD CONSTRAINT employers_pkey PRIMARY KEY (employerid);
+
+
+--
+-- TOC entry 1863 (class 2606 OID 16998)
+-- Name: employershistory_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY employershistory
+    ADD CONSTRAINT employershistory_pkey PRIMARY KEY (historyid);
+
+
+--
+-- TOC entry 1865 (class 2606 OID 17003)
+-- Name: employersofstaffs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY employersofstaffs
+    ADD CONSTRAINT employersofstaffs_pkey PRIMARY KEY (staffid);
+
+
+--
+-- TOC entry 1867 (class 2606 OID 17011)
+-- Name: positions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY positions
+    ADD CONSTRAINT positions_pkey PRIMARY KEY (positionid);
+
+
+--
+-- TOC entry 1869 (class 2606 OID 17016)
+-- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT schedules_pkey PRIMARY KEY (scheduleid);
+
+
+--
+-- TOC entry 1871 (class 2606 OID 17024)
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+
+
+--
+-- TOC entry 1874 (class 2606 OID 17035)
+-- Name: fk3oo3o94n2qw20itpfck1ivdj7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY employersofstaffs
+    ADD CONSTRAINT fk3oo3o94n2qw20itpfck1ivdj7 FOREIGN KEY (employerid) REFERENCES employers(employerid);
+
+
+--
+-- TOC entry 1877 (class 2606 OID 17050)
+-- Name: fk8mwc56dqew174v6fglfnalj6q; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT fk8mwc56dqew174v6fglfnalj6q FOREIGN KEY (positionid) REFERENCES positions(positionid);
+
+
+--
+-- TOC entry 1876 (class 2606 OID 17045)
+-- Name: fkg1uj9tldm4rh2ovg41jikgkpd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY schedules
+    ADD CONSTRAINT fkg1uj9tldm4rh2ovg41jikgkpd FOREIGN KEY (departmentid) REFERENCES departments(departmentid);
+
+
+--
+-- TOC entry 1875 (class 2606 OID 17040)
+-- Name: fklctye4b86wqgnaihpotxr8lxg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY employersofstaffs
+    ADD CONSTRAINT fklctye4b86wqgnaihpotxr8lxg FOREIGN KEY (positionid) REFERENCES positions(positionid);
+
+
+--
+-- TOC entry 1873 (class 2606 OID 17030)
+-- Name: fkpmovoux44dapuv7kvgms8eux1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY employersofstaffs
+    ADD CONSTRAINT fkpmovoux44dapuv7kvgms8eux1 FOREIGN KEY (departmentid) REFERENCES departments(departmentid);
+
+
+--
+-- TOC entry 1878 (class 2606 OID 17055)
+-- Name: fkr0vylwkb8hxo7je2agmmlltgp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fkr0vylwkb8hxo7je2agmmlltgp FOREIGN KEY (employerid) REFERENCES employers(employerid);
+
+
+--
+-- TOC entry 1872 (class 2606 OID 17025)
+-- Name: fkto7eeuwea87qimu1ghba9rpg9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY employershistory
+    ADD CONSTRAINT fkto7eeuwea87qimu1ghba9rpg9 FOREIGN KEY (employerid) REFERENCES employers(employerid);
+
+
+--
+-- TOC entry 2004 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2016-03-23 00:06:52
+
+--
+-- PostgreSQL database dump complete
+--
+

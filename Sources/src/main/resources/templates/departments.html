@@ -68,7 +68,7 @@
                                         <td>
                                             <a th:href="|/schedules?id=${dep.departmentId}|" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Штатное расписание</a>
                                             <a th:href="|/departments/edit?id=${dep.departmentId}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить </a>
-                                            <a th:href="|/departments/delete?id=${dep.departmentId}|" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
+                                            <div style="display: inline-block;" th:if="${dep.hasChilds} == false"><a th:href="|/departments/delete?id=${dep.departmentId}|" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a></div>
                                         </td>
                                     </tr>
 

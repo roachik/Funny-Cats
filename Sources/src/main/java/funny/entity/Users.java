@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name="users")
 public class Users {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
 
     @Column(name="name")
@@ -18,6 +18,12 @@ public class Users {
     @Column(name="password")
     private String password;
 
+    @Column(name="admin")
+    private boolean isAdmin;
+
+    @OneToOne
+    @JoinColumn(name="employerId")
+    private Employer employer;
 
     public int getUserId() {
 
@@ -42,5 +48,21 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

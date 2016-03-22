@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Position {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int positionId;
 
     @Column(name="name")
@@ -18,6 +18,9 @@ public class Position {
 
     @Column(name="info")
     private String info;
+
+    @Column(name="role")
+    private int role;
 
     public int getPositionId() {
         return positionId;
@@ -41,5 +44,13 @@ public class Position {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }
