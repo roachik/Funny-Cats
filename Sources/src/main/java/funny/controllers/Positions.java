@@ -26,7 +26,8 @@ public class Positions extends Base {
     @RequestMapping("/positions")
     public String positions(Model model) throws SQLException {
         putModel(model);
-        //model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
+        ArrayList<String> breads = setBreadcrumbs();
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         List<Position> list = ModelPositions.getPositions();
         model.addAttribute("table", list);
         return "positions";
@@ -40,8 +41,11 @@ public class Positions extends Base {
             ModelPositions.updatePosition(Integer.parseInt(id),newname, Integer.parseInt(role));
         }
         putModel(model);
-        model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
-        model.addAttribute("info", ModelPositions.getPosition(Integer.parseInt(id)));
+        Position p = ModelPositions.getPosition(Integer.parseInt(id));
+        ArrayList<String> breads = setBreadcrumbs();
+        breads.add("<a href=\"/positions/edit?id="+p.getPositionId()+"\">"+p.getName()+"</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
+        model.addAttribute("info", p);
         return "edit_positions";
     }
 
@@ -60,6 +64,9 @@ public class Positions extends Base {
             ModelPositions.add(name,Integer.parseInt(role));
             return "redirect:/positions";
         }
+        ArrayList<String> breads = setBreadcrumbs();
+        breads.add("<a href=\"/positions/add\">Новая должность</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         return "add_position";
     }
 

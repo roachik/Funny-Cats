@@ -16,15 +16,16 @@ import java.util.List;
 public class ModelPositions extends ModelMain {
 
     public static List<Position> getPositions() {
-        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        dbsession.beginTransaction();
         Criteria c = dbsession.createCriteria(Position.class);
         List<Position> list = c.list();
-        dbsession.close();
+        dbsession.getTransaction().commit();
         return list;
     }
 
     public static void add(String name,int role) {
-        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
         Position d = new Position();
         d.setName(name);
@@ -35,16 +36,17 @@ public class ModelPositions extends ModelMain {
 
 
     public static Position getPosition(int id) {
-        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        dbsession.beginTransaction();
         Criteria c = dbsession.createCriteria(Position.class)
                 .add(Restrictions.eq("positionId", id)).setMaxResults(1);
         List<Position> list = c.list();
-        dbsession.close();
+        dbsession.getTransaction().commit();
         return list!=null?list.get(0):null;
     }
 
     public static void updatePosition(int id,String name,int role) {
-        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
         Position pos = dbsession.get(Position.class, id);
         pos.setName(name);
@@ -55,11 +57,11 @@ public class ModelPositions extends ModelMain {
 
     public static boolean deletePosition(Position posID, Department depID) {
         ModelSchedules.deleteSchedule(posID,depID);
-        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
         dbsession.delete(posID);
         dbsession.getTransaction().commit();
-        dbsession.close();
+       // dbsession.close();
         return true;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class Employers extends Base {
                                    @RequestParam(value="pos",required = true) String pos)
             throws SQLException {
         putModel(model);
+        //model.addAttribute("breadcrumbs",breads);
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
         Employer e = (Employer) getSession().getAttribute("emp");
@@ -77,6 +79,10 @@ public class Employers extends Base {
     public String employers(Model model)
             throws SQLException {
         putModel(model);
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/employers\">Сотрудники</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         List<Employer> list = ModelEmployers.getEmployers();
         model.addAttribute("table", list);
         return "employers";
@@ -86,7 +92,7 @@ public class Employers extends Base {
     public String delete(Model model,@RequestParam(value="id",required = true) String id)
             throws SQLException {
         ModelSchedules.deleteById(Employer.class, Integer.parseInt(id));
-        return "redirect:/";
+        return "redirect:/employers";
     }
 
     @RequestMapping("/employers/add")
@@ -95,6 +101,11 @@ public class Employers extends Base {
             ModelEmployers.addEmployer(name);
             return "redirect:/employers";
         }
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/employers\">Сотрудники</a>");
+        breads.add("<a href=\"/employers/add\">Новый сотрудник</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         return "add_employer";
     }
 
@@ -104,7 +115,13 @@ public class Employers extends Base {
             ModelEmployers.updateEmployer(Integer.parseInt(id),name);
         }
         putModel(model);
-        model.addAttribute("info", ModelEmployers.getEmployer(Integer.parseInt(id)));
+        Employer e = ModelEmployers.getEmployer(Integer.parseInt(id));
+        model.addAttribute("info", e);
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/employers\">Сотрудники</a>");
+        breads.add("<a href=\"/employers/edit?id="+id+"\">"+e.getName()+"</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         return "edit_employer";
     }
 
