@@ -31,8 +31,11 @@ public class Employers extends Base {
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
         Employer e = (Employer) getSession().getAttribute("emp");
-        model.addAttribute("role", ModelMain.getRoleForDep(Integer.parseInt(dep),Integer.parseInt(pos),
-                e.getEmployerId()));
+        if((ModelMain.getRole(e.getEmployerId())==2)&&(ModelMain.getRoleDep(Integer.parseInt(dep), e.getEmployerId())==-1)) {
+            model.addAttribute("role", 0);
+        } else {
+            model.addAttribute("role", ModelMain.getRole(e.getEmployerId()));
+        }
         return "employersofstaffs";
     }
 
@@ -45,9 +48,9 @@ public class Employers extends Base {
 
     @RequestMapping("/employersofstaffs/add")
     public String employersofstaffadd(Model model,@RequestParam(value="part",required = false) String part,
-                      @RequestParam(value="emp",required = false) String emp,
-                      @RequestParam(value="pos",required = true) String pos,
-                      @RequestParam(value="dep",required = true) String dep) throws SQLException {
+                                      @RequestParam(value="emp",required = false) String emp,
+                                      @RequestParam(value="pos",required = true) String pos,
+                                      @RequestParam(value="dep",required = true) String dep) throws SQLException {
         if(pos != null && emp != null && dep != null && part != null){
             ModelEmployers.addStaff(Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(emp),Double.parseDouble(part));
             return "redirect:/employersofstaffs/?dep="+dep+"&pos="+pos;
@@ -60,6 +63,7 @@ public class Employers extends Base {
     public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,
                                        @RequestParam(value="id",required = true) String id,
                                        @RequestParam(value="active",required = false) String active) throws SQLException {
+        System.out.println("oooo");
         if(part != null){
             ModelEmployers.updateStaff(Integer.parseInt(id),Double.parseDouble(part),Integer.parseInt(active));
         }

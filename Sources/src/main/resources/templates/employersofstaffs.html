@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+
 <head th:replace="fragments/styles :: styles"></head>
 
 
 <body class="nav-md">
-
 <div class="container body">
 
 
@@ -45,7 +47,9 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 1%">#</th>
-                                        <th style="width: 20%">Имя</th>
+                                        <th style="width: 20%">Сотрудник</th>
+                                        <th style="width: 20%">Ставка</th>
+                                        <th style="width: 20%">Активирован</th>
                                         <th style="width: 20%">Управление</th>
                                     </tr>
                                     </thead>
@@ -56,7 +60,51 @@
                                         <td>
                                             <a href="#" th:text="${pos.getEmployer().getName()}"></a>
                                             <br />
-                                            <small th:text="|Ставка: ${pos.getPart()}|"> </small>
+                                        </td>
+                                        <td>
+                                            <label th:text="${pos.getPart()}"></label>
+
+
+                                        </td>
+                                        <td>
+
+                                            <div th:if="${role == 0}">
+                                                 <label th:text="${pos.getIsActiveInString()}"></label>
+                                            </div>
+                                            <div th:if="${role == 1}">
+                                                <label th:text="${pos.getIsActiveInString()}"></label>
+                                            </div>
+
+                                            <div th:if="${role == 2}" class="form-group">
+
+                                                <div >
+                                                   <form  action=""  method="post">
+                                                       <select  class="active" name="active" th:attr="data-id=${pos.getStaffId()},data-part=${pos.getPart()}">
+                                                        <option th:selected="(${pos.getIsActive()} == 0)" value="0">Деактивирован</option>
+                                                        <option th:selected="(${pos.getIsActive()} == 1)" value="1">Активирован</option>
+                                                    </select>
+
+                                                   </form>
+                                                </div>
+
+                                            </div>
+
+                                            <script>
+
+                                            $(document).ready(function() {
+                                                $('select.active').change(function(){
+
+                                                    $.ajax({
+                                                            type: 'POST',
+                                                            url: '/employersofstaffs/edit',
+                                                            data: {id: $(this).data("id"), part: $(this).data("part") ,active: $('select.active').val()}
+
+                                                     });
+
+                                                });
+                                            });
+
+                                            </script>
                                         </td>
                                         <td><div th:if="${role > 0}">
                                             <a th:href="|/employersofstaffs/edit?id=${pos.getStaffId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить </a>
