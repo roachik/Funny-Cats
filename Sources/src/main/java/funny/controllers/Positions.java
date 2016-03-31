@@ -64,6 +64,7 @@ public class Positions extends Base {
             ModelPositions.add(name,Integer.parseInt(role));
             return "redirect:/positions";
         }
+        putModel(model);
         ArrayList<String> breads = setBreadcrumbs();
         breads.add("<a href=\"/positions/add\">Новая должность</a>");
         model.addAttribute("breadcrumbs",getBreadcrumbs(breads));

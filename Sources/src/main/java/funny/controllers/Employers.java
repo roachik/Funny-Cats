@@ -2,10 +2,7 @@ package funny.controllers;
 
 import funny.Base;
 import funny.HibernateSessionFactory;
-import funny.entity.Employer;
-import funny.entity.EmployersOfStaffs;
-import funny.entity.Position;
-import funny.entity.Schedule;
+import funny.entity.*;
 import funny.models.*;
 import org.hibernate.Session;
 import org.springframework.stereotype.Controller;
@@ -29,7 +26,15 @@ public class Employers extends Base {
                                    @RequestParam(value="pos",required = true) String pos)
             throws SQLException {
         putModel(model);
-        //model.addAttribute("breadcrumbs",breads);
+        Department d = ModelDepartments.getDepartment(Integer.parseInt(dep));
+        Position p = ModelPositions.getPosition(Integer.parseInt(pos));
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/departments\">Отделы</a>");
+        breads.add("<a href=\"/departments?id="+dep+"\">"+d.getName()+"</a>");
+        breads.add("<a href=\"/schedules?id="+dep+"\">Ставки</a>");
+        breads.add("<a href=\"/employersofstaffs?dep="+dep+"&pos="+pos+"\">"+p.getName()+"</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
         Employer e = (Employer) getSession().getAttribute("emp");
@@ -57,6 +62,17 @@ public class Employers extends Base {
             ModelEmployers.addStaff(Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(emp),Double.parseDouble(part));
             return "redirect:/employersofstaffs/?dep="+dep+"&pos="+pos;
         }
+        putModel(model);
+        Department d = ModelDepartments.getDepartment(Integer.parseInt(dep));
+        Position p = ModelPositions.getPosition(Integer.parseInt(pos));
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/departments\">Отделы</a>");
+        breads.add("<a href=\"/departments?id="+dep+"\">"+d.getName()+"</a>");
+        breads.add("<a href=\"/schedules?id="+dep+"\">Ставки</a>");
+        breads.add("<a href=\"/employersofstaffs?dep="+dep+"&pos="+pos+"\">"+p.getName()+"</a>");
+        breads.add("<a href=\"/employersofstaffs/add?dep="+dep+"&pos="+pos+"\">Новая запись</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         model.addAttribute("Emps", ModelEmployers.getEmployers());
         return "add_employerofstaff";
     }
@@ -65,12 +81,16 @@ public class Employers extends Base {
     public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,
                                        @RequestParam(value="id",required = true) String id,
                                        @RequestParam(value="active",required = false) String active) throws SQLException {
-       System.out.println(Integer.parseInt(id));
-       // System.out.println(part);
 
-       // System.out.println(Integer.parseInt(active));
         putModel(model);
         EmployersOfStaffs e = ModelEmployers.getEmployerOfStaff(Integer.parseInt(id));
+        ArrayList<String> breads = new ArrayList<String>();
+        breads.add("<a href=\"/\">Главная</a>");
+        breads.add("<a href=\"/departments\">Отделы</a>");
+        breads.add("<a href=\"/departments?id="+e.getDepartment().getDepartmentId()+"\">"+e.getDepartment().getName()+"</a>");
+        breads.add("<a href=\"/schedules?id="+e.getDepartment().getDepartmentId()+"\">Ставки</a>");
+        breads.add("<a href=\"/employersofstaffs?dep="+e.getDepartment().getDepartmentId()+"&pos="+e.getPosition().getPositionId()+"\">"+e.getPosition().getName()+"</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         model.addAttribute("info", e);
         Employer em = (Employer) getSession().getAttribute("emp");
 
@@ -123,6 +143,7 @@ public class Employers extends Base {
             ModelEmployers.addEmployer(name);
             return "redirect:/employers";
         }
+        putModel(model);
         ArrayList<String> breads = new ArrayList<String>();
         breads.add("<a href=\"/\">Главная</a>");
         breads.add("<a href=\"/employers\">Сотрудники</a>");

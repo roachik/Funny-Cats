@@ -22,7 +22,11 @@ public class Schedules extends Base {
     @RequestMapping("/schedules")
     public String schedules(Model model, @RequestParam(value="id",required = true) String id) throws SQLException {
         putModel(model);
-        //model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
+        ArrayList<String> bread = setBreadcrumbs();
+        Department d = ModelDepartments.getDepartment(Integer.parseInt(id));
+        bread.add("<a href=\"/departments?id="+d.getDepartmentId()+"\">"+d.getName()+"</a>");
+        bread.add("<a href=\"/schedules?id="+d.getDepartmentId()+"\">Ставки</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(bread));
         List<Schedule> list = ModelSchedules.getSchedules(Integer.parseInt(id));
         model.addAttribute("table", list);
         Employer em = (Employer) getSession().getAttribute("emp");
@@ -36,8 +40,13 @@ public class Schedules extends Base {
             ModelSchedules.updateSchedule(Integer.parseInt(id),Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(number));
         }
         putModel(model);
-        model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
-        model.addAttribute("info", ModelSchedules.getSchedule(Integer.parseInt(id)));
+        Schedule s = ModelSchedules.getSchedule(Integer.parseInt(id));
+        ArrayList<String> bread = setBreadcrumbs();
+        bread.add("<a href=\"/departments?id="+s.getDepartment().getDepartmentId()+"\">"+s.getDepartment().getName()+"</a>");
+        bread.add("<a href=\"/schedules?id="+s.getDepartment().getDepartmentId()+"\">Ставки</a>");
+        bread.add("<a href=\"/schedules/edit?id="+s.getScheduleId()+"\">Редактирование ставки</a>");
+        model.addAttribute("breadcrumbs",getBreadcrumbs(bread));
+        model.addAttribute("info", s);
         model.addAttribute("Poss", ModelPositions.getPositions());
         model.addAttribute("Deps", ModelDepartments.getDepartmentsAll());
         return "edit_schedules";
@@ -55,6 +64,13 @@ public class Schedules extends Base {
             ModelSchedules.addSchedule(Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(number));
             return "redirect:/schedules?id="+dep;
         }
+        putModel(model);
+        ArrayList<String> bread = setBreadcrumbs();
+        Department d = ModelDepartments.getDepartment(Integer.parseInt(dep));
+        bread.add("<a href=\"/departments?id="+d.getDepartmentId()+"\">"+d.getName()+"</a>");
+        bread.add("<a href=\"/schedules?id="+d.getDepartmentId()+"\">Ставки</a>");
+        bread.add("<a href=\"/schedules/add?id="+d.getDepartmentId()+"\">Новая ставка</a>");
+        model.addAttribute("breadcrumbs", getBreadcrumbs(bread));
         model.addAttribute("Poss", ModelPositions.getPositions());
         model.addAttribute("Deps", ModelDepartments.getDepartmentsAll());
         return "add_schedules";
@@ -64,7 +80,7 @@ public class Schedules extends Base {
     {
         ArrayList<String> breads = new ArrayList<String>();
         breads.add("<a href=\"/\">Главная</a>");
-        breads.add("<a href=\"/schedules\">Ставки</a>");
+        breads.add("<a href=\"/departments\">Отделы</a>");
         return breads;
     }
 

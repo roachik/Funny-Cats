@@ -56,15 +56,15 @@ public class Departments extends Base {
     @RequestMapping("/departments/add")
     public String add(Model model,@RequestParam(value="id",required = false) String id,
                       @RequestParam(value="name",required = false) String name) throws SQLException {
+        if(id == null || id.length() == 0) id = "0";
         if(name != null){
-            if(id == null || id.length() == 0) id = "0";
+
             ModelDepartments.add(Integer.parseInt(id),name);
             return "redirect:/departments?id="+id;
         }
         putModel(model);
-        ArrayList<String> breads = new ArrayList<String>();
-        breads.add("<a href=\"/\">Главная</a>");
-        breads.add("<a href=\"/departments\">Отделы</a>");
+        ArrayList<String> breads = setBreadcrumbs(Integer.parseInt(id));
+        breads.add("<a href=\"/departments/add?id="+id+"\">Новый отдел</a>");
         model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         return "add_department";
     }
