@@ -33,8 +33,11 @@ public class Employers extends Base {
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
         Employer e = (Employer) getSession().getAttribute("emp");
-        model.addAttribute("role", ModelMain.getRoleForDep(Integer.parseInt(dep),Integer.parseInt(pos),
-                e.getEmployerId()));
+        if((ModelMain.getRole(e.getEmployerId())==2)&&(ModelMain.getRoleDep(Integer.parseInt(dep), e.getEmployerId())==-1)) {
+            model.addAttribute("role", 0);
+        } else {
+            model.addAttribute("role", ModelMain.getRole(e.getEmployerId()));
+        }
         return "employersofstaffs";
     }
 
@@ -47,9 +50,9 @@ public class Employers extends Base {
 
     @RequestMapping("/employersofstaffs/add")
     public String employersofstaffadd(Model model,@RequestParam(value="part",required = false) String part,
-                      @RequestParam(value="emp",required = false) String emp,
-                      @RequestParam(value="pos",required = true) String pos,
-                      @RequestParam(value="dep",required = true) String dep) throws SQLException {
+                                      @RequestParam(value="emp",required = false) String emp,
+                                      @RequestParam(value="pos",required = true) String pos,
+                                      @RequestParam(value="dep",required = true) String dep) throws SQLException {
         if(pos != null && emp != null && dep != null && part != null){
             ModelEmployers.addStaff(Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(emp),Double.parseDouble(part));
             return "redirect:/employersofstaffs/?dep="+dep+"&pos="+pos;
@@ -62,16 +65,35 @@ public class Employers extends Base {
     public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,
                                        @RequestParam(value="id",required = true) String id,
                                        @RequestParam(value="active",required = false) String active) throws SQLException {
-        if(part != null){
-            ModelEmployers.updateStaff(Integer.parseInt(id),Double.parseDouble(part),Integer.parseInt(active));
-        }
+       System.out.println(Integer.parseInt(id));
+       // System.out.println(part);
+
+       // System.out.println(Integer.parseInt(active));
         putModel(model);
         EmployersOfStaffs e = ModelEmployers.getEmployerOfStaff(Integer.parseInt(id));
         model.addAttribute("info", e);
         Employer em = (Employer) getSession().getAttribute("emp");
-        model.addAttribute("role", ModelMain.getRoleForDep(e.getDepartment().getDepartmentId(),e.getPosition().getPositionId(),
-                em.getEmployerId()));
-        return "edit_employerofstaff";
+
+        if(part != null){
+            System.out.println(part);
+            if(active != null) {
+                ModelEmployers.updateStaff(Integer.parseInt(id), Double.parseDouble(part), Integer.parseInt(active));
+            } else {
+                ModelEmployers.updateStaff(Integer.parseInt(id), Double.parseDouble(part), e.getIsActive());
+
+            }
+        }
+
+        if((ModelMain.getRole(em.getEmployerId())==2)&&(ModelMain.getRoleDep(e.getDepartment().getDepartmentId(), em.getEmployerId())==-1)) {
+            model.addAttribute("role", 0);
+        } else {
+            model.addAttribute("role", ModelMain.getRole(em.getEmployerId()));
+        }
+        if(part!=null){
+            return "redirect:/";
+        } else {
+            return "edit_employerofstaff";
+        }
     }
 
 

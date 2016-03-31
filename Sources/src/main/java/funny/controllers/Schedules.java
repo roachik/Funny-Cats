@@ -2,12 +2,8 @@ package funny.controllers;
 
 import funny.Base;
 import funny.DB;
-import funny.entity.Department;
-import funny.entity.Position;
-import funny.entity.Schedule;
-import funny.models.ModelDepartments;
-import funny.models.ModelPositions;
-import funny.models.ModelSchedules;
+import funny.entity.*;
+import funny.models.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +25,8 @@ public class Schedules extends Base {
         //model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
         List<Schedule> list = ModelSchedules.getSchedules(Integer.parseInt(id));
         model.addAttribute("table", list);
+        Employer em = (Employer) getSession().getAttribute("emp");
+        model.addAttribute("role", ModelMain.getRole(em.getEmployerId()));
         return "schedules";
     }
 

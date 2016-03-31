@@ -45,7 +45,8 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 1%">#</th>
-                                        <th style="width: 20%">Название</th>
+                                        <th style="width: 20%">Должность</th>
+                                        <th style="width: 20%">Количество</th>
                                         <th style="width: 20%">Управление</th>
                                     </tr>
                                     </thead>
@@ -56,12 +57,18 @@
                                         <td>
                                             <a th:href="@{'/employersofstaffs/'(dep=${pos.getDepartment().getDepartmentId()},pos=${pos.getPosition().getPositionId()})}" th:text="${pos.getPosition().getName()}"></a>
                                             <br />
-                                            <small>Создано 18.02.2016</small>
+
                                         </td>
                                         <td>
+                                            <label th:text="${pos.getNumber()}"></label>
+
+
+                                        </td>
+                                        <td><div th:if="${role > 0}">
                                             <a th:href="|/positions/edit?id=${pos.getPosition().getPositionId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить должность</a>
                                             <a th:href="|/schedules/edit?id=${pos.getScheduleId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить ставку</a>
                                             <a th:href="@{'/schedules/delete'(id=${pos.getScheduleId()})}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
+                                        </div>
                                         </td>
                                     </tr>
 

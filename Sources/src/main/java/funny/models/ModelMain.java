@@ -90,4 +90,35 @@ public class ModelMain {
         if(list.size() > 0) return list.get(0).getPosition().getRole();
         else return -1;
     }
+
+    public static int getRoleDep(int dep,int employer){
+        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Criteria c = dbsession.createCriteria(EmployersOfStaffs.class, "EmployersOfStaffs");
+        c.createAlias("EmployersOfStaffs.position", "Positions"); // inner join by default
+        c.createAlias("EmployersOfStaffs.department", "Departments"); // inner join by default
+        c.createAlias("EmployersOfStaffs.employer", "Employers"); // inner join by default
+        c.add(Restrictions.eq("Departments.departmentId",dep));
+        c.add(Restrictions.eq("Employers.employerId",employer));
+        c.setMaxResults(1);
+        List<EmployersOfStaffs> list = c.list();
+        dbsession.close();
+        System.out.println("asd "+list.size());
+        if(list.size() > 0) return list.get(0).getPosition().getRole();
+        else return -1;
+    }
+
+    public static int getRole(int employer){
+        Session dbsession = HibernateSessionFactory.getSessionFactory().openSession();
+        Criteria c = dbsession.createCriteria(EmployersOfStaffs.class, "EmployersOfStaffs");
+        c.createAlias("EmployersOfStaffs.position", "Positions"); // inner join by default
+        c.createAlias("EmployersOfStaffs.employer", "Employers"); // inner join by default
+        //c.add(Restrictions.eq("Positions.positionId",pos));
+        c.add(Restrictions.eq("Employers.employerId",employer));
+        c.setMaxResults(1);
+        List<EmployersOfStaffs> list = c.list();
+        dbsession.close();
+        System.out.println("asd "+list.size());
+        if(list.size() > 0) return list.get(0).getPosition().getRole();
+        else return -1;
+    }
 }

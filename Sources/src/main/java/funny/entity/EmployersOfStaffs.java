@@ -75,7 +75,15 @@ public class EmployersOfStaffs {
         return isActive;
     }
 
+    public String getIsActiveInString() {
+        if(isActive==1) {
+            return "Активирован";
+        } else {
+            return "Деактивирован";
+        }
+    }
+
     public void setIsActive(int isActive) {
-        this.isActive = isActive;
+        System.out.println("ff"); this.isActive = isActive;
     }
 }
