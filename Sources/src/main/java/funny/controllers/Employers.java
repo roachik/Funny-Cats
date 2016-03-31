@@ -63,17 +63,35 @@ public class Employers extends Base {
     public String employersofstaffedit(Model model, @RequestParam(value="part",required = false) String part,
                                        @RequestParam(value="id",required = true) String id,
                                        @RequestParam(value="active",required = false) String active) throws SQLException {
-        System.out.println("oooo");
-        if(part != null){
-            ModelEmployers.updateStaff(Integer.parseInt(id),Double.parseDouble(part),Integer.parseInt(active));
-        }
+       System.out.println(Integer.parseInt(id));
+       // System.out.println(part);
+
+       // System.out.println(Integer.parseInt(active));
         putModel(model);
         EmployersOfStaffs e = ModelEmployers.getEmployerOfStaff(Integer.parseInt(id));
         model.addAttribute("info", e);
         Employer em = (Employer) getSession().getAttribute("emp");
-        model.addAttribute("role", ModelMain.getRoleForDep(e.getDepartment().getDepartmentId(),e.getPosition().getPositionId(),
-                em.getEmployerId()));
-        return "edit_employerofstaff";
+
+        if(part != null){
+            System.out.println(part);
+            if(active != null) {
+                ModelEmployers.updateStaff(Integer.parseInt(id), Double.parseDouble(part), Integer.parseInt(active));
+            } else {
+                ModelEmployers.updateStaff(Integer.parseInt(id), Double.parseDouble(part), e.getIsActive());
+
+            }
+        }
+
+        if((ModelMain.getRole(em.getEmployerId())==2)&&(ModelMain.getRoleDep(e.getDepartment().getDepartmentId(), em.getEmployerId())==-1)) {
+            model.addAttribute("role", 0);
+        } else {
+            model.addAttribute("role", ModelMain.getRole(em.getEmployerId()));
+        }
+        if(part!=null){
+            return "redirect:/";
+        } else {
+            return "edit_employerofstaff";
+        }
     }
 
 

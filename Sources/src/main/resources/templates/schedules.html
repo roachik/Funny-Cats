@@ -64,10 +64,11 @@
 
 
                                         </td>
-                                        <td>
+                                        <td><div th:if="${role > 0}">
                                             <a th:href="|/positions/edit?id=${pos.getPosition().getPositionId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить должность</a>
                                             <a th:href="|/schedules/edit?id=${pos.getScheduleId()}|" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Изменить ставку</a>
                                             <a th:href="@{'/schedules/delete'(id=${pos.getScheduleId()})}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Удалить </a>
+                                        </div>
                                         </td>
                                     </tr>
 

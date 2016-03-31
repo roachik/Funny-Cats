@@ -3,7 +3,9 @@ package funny.controllers;
 import funny.Base;
 import funny.DB;
 import funny.entity.Department;
+import funny.entity.Employer;
 import funny.models.ModelDepartments;
+import funny.models.ModelMain;
 import funny.models.ModelPositions;
 import funny.models.ModelSchedules;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ public class Departments extends Base {
         model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
         int pid = (id!=null)?Integer.parseInt(id):0;
         model.addAttribute("table", ModelDepartments.getDepartments(pid));
+        Employer em = (Employer) getSession().getAttribute("emp");
+        model.addAttribute("role", ModelMain.getRole(em.getEmployerId()));
         return "departments";
     }
 
