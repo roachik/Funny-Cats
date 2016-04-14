@@ -29,7 +29,11 @@ public class Login extends Base {
             //session.setAttribute("role", u.getEmployer().getRole());
             return "redirect:/";
         }
-        else return "login";
+        else
+        {
+            session.invalidate();
+            return "login";
+        }
 
     }
 }
