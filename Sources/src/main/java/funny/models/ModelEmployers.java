@@ -64,6 +64,15 @@ public class ModelEmployers extends ModelMain{
         dbsession.getTransaction().commit();
     }
 
+    public static void activate(int id) {
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        dbsession.beginTransaction();
+        EmployersOfStaffs s = dbsession.get(EmployersOfStaffs.class, id);
+        s.setIsActive(1);
+        dbsession.update(s);
+        dbsession.getTransaction().commit();
+    }
+
     public static void addStaff(int dep,int pos,int emp,double part) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();

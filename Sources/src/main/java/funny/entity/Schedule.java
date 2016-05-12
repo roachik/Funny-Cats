@@ -28,6 +28,9 @@ public class Schedule {
     @Column(name="number")
     private int number;
 
+    @Column(name="active")
+    private int active;
+
     public int getScheduleId() {
         return scheduleId;
     }
@@ -58,5 +61,13 @@ public class Schedule {
 
     public void setPosition(Position positionId) {
         this.position = positionId;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 }

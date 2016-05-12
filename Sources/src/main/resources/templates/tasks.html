@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/styles :: styles"></head>
+
+
+<body class="nav-md">
+
+<div class="container body">
+
+
+    <div class="main_container">
+
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="right_col" role="main">
+
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3 th:utext="${breadcrumbs}"></h3>
+                    </div>
+
+                    <div class="title_right">
+                        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for..."/>
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="row" th:if="${T(funny.models.ModelMain).isInRole(userid,1)}">
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Сотрудники без ставок</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+
+
+                                <!-- start project list -->
+                                <table class="table table-striped projects">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 1%">#</th>
+                                        <th style="width: 20%">Название</th>
+                                        <th style="width: 20%">Управление</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr th:each="employer : ${employers}">
+                                        <td>#</td>
+                                        <td>
+                                            <a th:href="|/employers/edit?id=${employer.employerId}|" th:text="${employer.name}"></a>
+
+                                            <br />
+                                        </td>
+
+                                        <td>
+                                            <a th:href="|/employersofstaffs/add?emp=${employer.employerId}|" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Создать ставку</a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- end project list -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:if="${T(funny.models.ModelMain).isInRole(userid,2)}">
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Неподтвержденное расписание</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+
+
+                                <!-- start project list -->
+                                <table class="table table-striped projects">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 1%">#</th>
+                                        <th style="width: 20%">Название</th>
+                                        <th style="width: 20%">Управление</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr th:each="schedule : ${schedules}" th:id="|sc${schedule.scheduleId}|">
+                                        <td>#</td>
+                                        <td>
+                                            <a th:href="|/schedules/edit?id=${schedule.scheduleId}|" th:text="|${schedule.getDepartment().getName()}: ${schedule.getPosition().getName()}|"></a>
+
+                                            <br />
+                                        </td>
+
+                                        <td>
+                                            <a href="#" th:onclick="|activateSchedule(${schedule.scheduleId}); return false;|"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Подтвердить</a>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- end project list -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:if="${T(funny.models.ModelMain).isInRole(userid,2)}">
+                    <div class="col-md-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Неподтвержденные сотрудники</h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+
+
+                                <!-- start project list -->
+                                <table class="table table-striped projects">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 1%">#</th>
+                                        <th style="width: 20%">Название</th>
+                                        <th style="width: 20%">Управление</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr th:each="staff : ${staffs}" th:id="|eos${staff.staffId}|">
+                                        <td>#</td>
+                                        <td>
+                                            <a th:href="|/employersofstaffs/edit?id=${staff.staffId}|" th:text="|${staff.getEmployer().getName()}: ${staff.getDepartment().getName()} ${staff.getPosition().getName()}|"></a>
+
+                                            <br />
+                                        </td>
+
+                                        <td>
+                                            <a href="#" th:onclick="|activateStaff(${staff.staffId}); return false;|"  class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> Подтвердить</a>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- end project list -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>

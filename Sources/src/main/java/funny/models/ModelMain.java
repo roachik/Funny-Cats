@@ -5,6 +5,7 @@ import funny.entity.EmployersOfStaffs;
 import funny.entity.Users;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.Serializable;
@@ -64,7 +65,7 @@ public class ModelMain {
         c.createAlias("EmployersOfStaffs.department", "Departments"); // inner join by default
         c.createAlias("EmployersOfStaffs.employer", "Employers"); // inner join by default
         c.add(Restrictions.eq("Employers.employerId",employer));
-        c.add(Restrictions.eq("Position.role",role));
+        c.add(Restrictions.eq("Positions.role",role));
         c.setMaxResults(1);
         List<EmployersOfStaffs> list = c.list();
         //dbsession.close();
@@ -86,7 +87,6 @@ public class ModelMain {
         List<EmployersOfStaffs> list = c.list();
         dbsession.getTransaction().commit();
         //dbsession.close();
-        System.out.println("asd "+list.size());
         if(list.size() > 0) return list.get(0).getPosition().getRole();
         else return -1;
     }
@@ -102,7 +102,6 @@ public class ModelMain {
         c.setMaxResults(1);
         List<EmployersOfStaffs> list = c.list();
         dbsession.close();
-        System.out.println("asd "+list.size());
         if(list.size() > 0) return list.get(0).getPosition().getRole();
         else return -1;
     }
@@ -114,10 +113,10 @@ public class ModelMain {
         c.createAlias("EmployersOfStaffs.employer", "Employers"); // inner join by default
         //c.add(Restrictions.eq("Positions.positionId",pos));
         c.add(Restrictions.eq("Employers.employerId",employer));
+        c.addOrder(Order.desc("Positions.role"));
         c.setMaxResults(1);
         List<EmployersOfStaffs> list = c.list();
         dbsession.close();
-        System.out.println("asd "+list.size());
         if(list.size() > 0) return list.get(0).getPosition().getRole();
         else return -1;
     }

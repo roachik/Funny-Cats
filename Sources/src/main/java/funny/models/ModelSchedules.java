@@ -58,6 +58,16 @@ public class ModelSchedules extends ModelMain {
         dbsession.getTransaction().commit();
     }
 
+    public static void activate(int id)
+    {
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        dbsession.beginTransaction();
+        Schedule s = dbsession.get(Schedule.class, id);
+        s.setActive(1);
+        dbsession.update(s);
+        dbsession.getTransaction().commit();
+    }
+
     public static void addSchedule(int dep,int pos,int count) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();

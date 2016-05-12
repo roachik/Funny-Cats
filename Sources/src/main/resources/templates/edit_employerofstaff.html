@@ -44,7 +44,41 @@
                             <div class="x_content">
                                 <form th:object="${info}" method="post" class="form-horizontal form-label-left">
 
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Отдел <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select name="dep" class="form-control col-md-7 col-xs-12">
+                                                <option th:each="pos : ${Deps}"
+                                                        th:selected="(${pos.getDepartmentId()} == ${info.getDepartment().getDepartmentId()})"
+                                                        th:value="${pos.getDepartmentId()}" th:text="${pos.getName()}">a</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Сотрудник <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select name="emp" class="form-control col-md-7 col-xs-12">
+                                                <option th:each="emp : ${Emps}"
+                                                        th:selected="(${emp.getEmployerId()} == ${info.getEmployer().getEmployerId()})"
+                                                        th:value="${emp.getEmployerId()}" th:text="${emp.getName()}">a</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Должность <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select name="pos" class="form-control col-md-7 col-xs-12">
+                                                <option th:each="pos : ${Poss}"
+                                                        th:selected="(${pos.getPositionId()} == ${info.getPosition().getPositionId()})"
+                                                        th:value="${pos.getPositionId()}" th:text="${pos.getName()}">a</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Ставка <span class="required">*</span>

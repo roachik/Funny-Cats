@@ -38,11 +38,17 @@ public class Employers extends Base {
         List<EmployersOfStaffs> list = ModelEmployers.getEmployersOfStaffs(Integer.parseInt(dep),Integer.parseInt(pos));
         model.addAttribute("table", list);
         Employer e = (Employer) getSession().getAttribute("emp");
-        if((ModelMain.getRole(e.getEmployerId())==2)&&(ModelMain.getRoleDep(Integer.parseInt(dep), e.getEmployerId())==-1)) {
+        int role = ModelMain.getRoleDep(Integer.parseInt(dep), e.getEmployerId());
+        if(role == -1){
+            model.addAttribute("role",0);
+        }
+        else model.addAttribute("role",role);
+
+        /*if((ModelMain.getRole(e.getEmployerId())==2)&&(ModelMain.getRoleDep(Integer.parseInt(dep), e.getEmployerId())==-1)) {
             model.addAttribute("role", 0);
         } else {
             model.addAttribute("role", ModelMain.getRole(e.getEmployerId()));
-        }
+        }*/
         return "employersofstaffs";
     }
 
@@ -56,24 +62,32 @@ public class Employers extends Base {
     @RequestMapping("/employersofstaffs/add")
     public String employersofstaffadd(Model model,@RequestParam(value="part",required = false) String part,
                                       @RequestParam(value="emp",required = false) String emp,
-                                      @RequestParam(value="pos",required = true) String pos,
-                                      @RequestParam(value="dep",required = true) String dep) throws SQLException {
+                                      @RequestParam(value="pos",required = false) String pos,
+                                      @RequestParam(value="dep",required = false) String dep) throws SQLException {
         if(pos != null && emp != null && dep != null && part != null){
             ModelEmployers.addStaff(Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(emp),Double.parseDouble(part));
             return "redirect:/employersofstaffs/?dep="+dep+"&pos="+pos;
         }
         putModel(model);
-        Department d = ModelDepartments.getDepartment(Integer.parseInt(dep));
-        Position p = ModelPositions.getPosition(Integer.parseInt(pos));
+        Department d = null;
+        Position p = null;
+        Employer e = null;
+        if(dep != null) d = ModelDepartments.getDepartment(Integer.parseInt(dep));
+        if(pos != null) p = ModelPositions.getPosition(Integer.parseInt(pos));
+        if(emp != null) e = ModelEmployers.getEmployer(Integer.parseInt(emp));
         ArrayList<String> breads = new ArrayList<String>();
         breads.add("<a href=\"/\">Главная</a>");
         breads.add("<a href=\"/departments\">Отделы</a>");
-        breads.add("<a href=\"/departments?id="+dep+"\">"+d.getName()+"</a>");
-        breads.add("<a href=\"/schedules?id="+dep+"\">Ставки</a>");
-        breads.add("<a href=\"/employersofstaffs?dep="+dep+"&pos="+pos+"\">"+p.getName()+"</a>");
-        breads.add("<a href=\"/employersofstaffs/add?dep="+dep+"&pos="+pos+"\">Новая запись</a>");
+        if(dep!=null && pos != null){
+            breads.add("<a href=\"/departments?id="+dep+"\">"+d.getName()+"</a>");
+            breads.add("<a href=\"/schedules?id="+dep+"\">Ставки</a>");
+            breads.add("<a href=\"/employersofstaffs?dep="+dep+"&pos="+pos+"\">"+p.getName()+"</a>");
+        }
+        breads.add("<a href=\"#\">Новая запись</a>");
         model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         model.addAttribute("Emps", ModelEmployers.getEmployers());
+        model.addAttribute("Poss", ModelPositions.getPositions());
+        model.addAttribute("Deps", ModelDepartments.getDepartmentsAll());
         return "add_employerofstaff";
     }
 
@@ -93,7 +107,9 @@ public class Employers extends Base {
         model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         model.addAttribute("info", e);
         Employer em = (Employer) getSession().getAttribute("emp");
-
+        if(active != null){
+            ModelEmployers.activate(Integer.parseInt(id));
+        }
         if(part != null){
             System.out.println(part);
             if(active != null) {
@@ -103,12 +119,20 @@ public class Employers extends Base {
 
             }
         }
+        model.addAttribute("Emps", ModelEmployers.getEmployers());
+        model.addAttribute("Poss", ModelPositions.getPositions());
+        model.addAttribute("Deps", ModelDepartments.getDepartmentsAll());
+        int role = ModelMain.getRoleDep(e.getDepartment().getDepartmentId(), em.getEmployerId());
+        if(role == -1){
+            model.addAttribute("role",0);
+        }
+        else model.addAttribute("role",role);
 
-        if((ModelMain.getRole(em.getEmployerId())==2)&&(ModelMain.getRoleDep(e.getDepartment().getDepartmentId(), em.getEmployerId())==-1)) {
+        /*if((ModelMain.getRole(em.getEmployerId())==2)&&(ModelMain.getRoleDep(e.getDepartment().getDepartmentId(), em.getEmployerId())==-1)) {
             model.addAttribute("role", 0);
         } else {
             model.addAttribute("role", ModelMain.getRole(em.getEmployerId()));
-        }
+        }*/
         if(part!=null){
             return "redirect:/";
         } else {
@@ -127,6 +151,13 @@ public class Employers extends Base {
         model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         List<Employer> list = ModelEmployers.getEmployers();
         model.addAttribute("table", list);
+        Employer e = (Employer) getSession().getAttribute("emp");
+
+        int role = ModelMain.getRole(e.getEmployerId());
+        if(role == -1){
+            model.addAttribute("role",0);
+        }
+        else model.addAttribute("role",role);
         return "employers";
     }
 
@@ -157,6 +188,7 @@ public class Employers extends Base {
         if(name != null){
             ModelEmployers.updateEmployer(Integer.parseInt(id),name);
         }
+
         putModel(model);
         Employer e = ModelEmployers.getEmployer(Integer.parseInt(id));
         model.addAttribute("info", e);

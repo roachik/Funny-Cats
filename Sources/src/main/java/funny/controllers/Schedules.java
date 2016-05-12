@@ -35,9 +35,12 @@ public class Schedules extends Base {
     }
 
     @RequestMapping("/schedules/edit")
-    public String edit(Model model, @RequestParam(value="number",required = false) String number,@RequestParam(value="pos",required = false) String pos,@RequestParam(value="dep",required = false) String dep,@RequestParam(value="id",required = true) String id) throws SQLException {
+    public String edit(Model model, @RequestParam(value="number",required = false) String number,@RequestParam(value="pos",required = false) String pos,@RequestParam(value="dep",required = false) String dep,@RequestParam(value="active",required = false) String active,@RequestParam(value="id",required = true) String id) throws SQLException {
         if(dep != null){
             ModelSchedules.updateSchedule(Integer.parseInt(id),Integer.parseInt(dep),Integer.parseInt(pos),Integer.parseInt(number));
+        }
+        if(active != null && Integer.parseInt(active) == 1){
+            ModelSchedules.activate(Integer.parseInt(id));
         }
         putModel(model);
         Schedule s = ModelSchedules.getSchedule(Integer.parseInt(id));

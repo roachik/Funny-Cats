@@ -315,3 +315,25 @@ $(document).ready(function () {
 
 });
 /** ******  /scrollview  *********************** **/
+
+function activateSchedule(id){
+    $.post("/schedules/edit",{id:id,active:1},function(){
+    $('#sc'+id).remove();
+    new PNotify({
+                                    title: 'Успешно!',
+                                    text: 'Вы успешно подтвердили расписание!',
+                                    type: 'success'
+                                });
+    });
+}
+
+function activateStaff(id){
+    $.post("/employersofstaffs/edit",{id:id,active:1},function(){
+    $('#eos'+id).remove();
+    new PNotify({
+                                    title: 'Успешно!',
+                                    text: 'Вы успешно подтвердили ставку!',
+                                    type: 'success'
+                                });
+    });
+}

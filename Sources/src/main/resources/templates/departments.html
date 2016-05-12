@@ -38,7 +38,7 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2>Подразделения</h2>
-                                <div class="nav navbar-right"><a class="btn btn-sm btn-primary" th:href="@{'/departments/add'(id=${param.id})}"><i class="fa fa-plus"></i> Создать</a></div>
+                                <div th:if="${role > 1}" class="nav navbar-right"><a class="btn btn-sm btn-primary" th:href="@{'/departments/add'(id=${param.id})}"><i class="fa fa-plus"></i> Создать</a></div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
