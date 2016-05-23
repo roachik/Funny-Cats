@@ -7,15 +7,19 @@ import funny.entity.Schedule;
 import funny.models.ModelDepartments;
 import funny.models.ModelMain;
 import funny.models.ModelTasks;
+import org.jbpm.bpmn2.handler.ServiceTaskHandler;
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.process.WorkflowProcessInstance;
+import org.kie.internal.io.ResourceFactory;
+import org.kie.internal.utils.KieHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Tony on 05.03.2016.
@@ -50,6 +54,10 @@ public class Tasks extends Base {
         model.addAttribute("role", ModelMain.getRole(e.getEmployerId()));
         return "tasks";
     }
+
+
+
+
 
 
 

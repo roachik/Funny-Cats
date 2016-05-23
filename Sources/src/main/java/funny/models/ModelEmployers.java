@@ -31,7 +31,7 @@ public class ModelEmployers extends ModelMain{
     public static void updateStaff(int id,double part,int active) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        EmployersOfStaffs s = dbsession.get(EmployersOfStaffs.class, id);
+        EmployersOfStaffs s = (EmployersOfStaffs)dbsession.get(EmployersOfStaffs.class, id);
 
         Criteria c = dbsession.createCriteria(EmployersOfStaffs.class, "EmployersOfStaffs");
         c.createAlias("EmployersOfStaffs.position", "Positions"); // inner join by default
@@ -64,10 +64,10 @@ public class ModelEmployers extends ModelMain{
         dbsession.getTransaction().commit();
     }
 
-    public static void activate(int id) {
+    public static void activate(Integer id) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        EmployersOfStaffs s = dbsession.get(EmployersOfStaffs.class, id);
+        EmployersOfStaffs s = (EmployersOfStaffs)dbsession.get(EmployersOfStaffs.class, id);
         s.setIsActive(1);
         dbsession.update(s);
         dbsession.getTransaction().commit();
@@ -150,7 +150,7 @@ public class ModelEmployers extends ModelMain{
     public static void updateEmployer(int id,String name) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        Employer pos = dbsession.get(Employer.class, id);
+        Employer pos = (Employer)dbsession.get(Employer.class, id);
         pos.setName(name);
         dbsession.update(pos);
         dbsession.getTransaction().commit();

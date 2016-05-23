@@ -47,10 +47,23 @@ public class ModelSchedules extends ModelMain {
         return list!=null?list.get(0):null;
     }
 
+    public static Schedule getScheduleDepAndPos(int dep, int pos) {
+        Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+        dbsession.beginTransaction();
+        Criteria c = dbsession.createCriteria(Schedule.class, "Schedules");
+        c.createAlias("Schedules.position", "Positions"); // inner join by default
+        c.createAlias("Schedules.department", "Departments"); // inner join by default
+        c.add(Restrictions.eq("Departments.departmentId",dep));
+        c.add(Restrictions.eq("Positions.positionId",pos));
+        List<Schedule> list = c.list();
+        dbsession.getTransaction().commit();
+        return list!=null?list.get(0):null;
+    }
+
     public static void updateSchedule(int id,int dep,int pos,int count) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        Schedule s = dbsession.get(Schedule.class, id);
+        Schedule s = (Schedule)dbsession.get(Schedule.class, id);
         s.setNumber(count);
         s.setDepartment((Department)ModelMain.getByID(Department.class,dep));
         s.setPosition((Position) ModelMain.getByID(Position.class,pos));
@@ -62,7 +75,7 @@ public class ModelSchedules extends ModelMain {
     {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        Schedule s = dbsession.get(Schedule.class, id);
+        Schedule s = (Schedule)dbsession.get(Schedule.class, id);
         s.setActive(1);
         dbsession.update(s);
         dbsession.getTransaction().commit();

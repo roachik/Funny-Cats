@@ -328,12 +328,24 @@ function activateSchedule(id){
 }
 
 function activateStaff(id){
-    $.post("/employersofstaffs/edit",{id:id,active:1},function(){
-    $('#eos'+id).remove();
-    new PNotify({
+    $.post("/tasks/activatestaff",{id:id},function(data){
+    //var json = $.parseJSON(data);
+    if(data.active == true){
+        $('#eos'+id).remove();
+        new PNotify({
                                     title: 'Успешно!',
                                     text: 'Вы успешно подтвердили ставку!',
                                     type: 'success'
                                 });
+    }
+    else {
+    new PNotify({
+                                        title: 'Неудачно!',
+                                        text: 'Расписание не подтверждено!',
+                                        type: 'danger'
+                                    });
+
+
+    }
     });
 }

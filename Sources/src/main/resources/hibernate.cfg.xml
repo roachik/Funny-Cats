@@ -4,14 +4,14 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="connection.url">jdbc:postgresql://localhost:5432/cats</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
 
         <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <!--and will be:  Initial SessionFactory failedorg.hibernate.service.spi.ServiceException: Unable to create requested service-->
         <property name="connection.username">postgres</property>
-        <property name="connection.password">1</property>
+        <property name="connection.password">123321</property>
 
 
         <property name="hbm2ddl.auto">validate</property>
@@ -21,7 +21,7 @@
         <property name="current_session_context_class">thread</property>
 
 
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <!-- NOTE that after automapping with IDEA property username and password will delete -->
         <mapping class="funny.entity.Users"/>
         <mapping class="funny.entity.Department"/>

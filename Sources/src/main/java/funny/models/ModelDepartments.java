@@ -65,7 +65,7 @@ public class ModelDepartments extends ModelMain{
     public static void updateDepartment(int id,String name) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        Department dep = dbsession.get(Department.class, id);
+        Department dep = (Department)dbsession.get(Department.class, id);
         dep.setName(name);
         dbsession.update(dep);
         dbsession.getTransaction().commit();

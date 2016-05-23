@@ -1,9 +1,7 @@
 package funny;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Created by Tony on 22.02.2016.
@@ -11,7 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 public class HibernateSessionFactory {
     private static SessionFactory sessionFactory = buildSessionFactory();
 
-    protected static SessionFactory buildSessionFactory() {
+    /*protected static SessionFactory buildSessionFactory() {
         // A SessionFactory is set up once for an application!
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
@@ -27,8 +25,19 @@ public class HibernateSessionFactory {
             throw new ExceptionInInitializerError("Initial SessionFactory failed" + e);
         }
         return sessionFactory;
-    }
+    }*/
 
+    public static SessionFactory buildSessionFactory() {
+        try {
+
+            return new Configuration().configure().buildSessionFactory();
+
+        } catch (Throwable ex) {
+
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
 
     public static SessionFactory getSessionFactory() {
         return sessionFactory;

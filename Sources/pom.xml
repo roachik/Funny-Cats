@@ -17,6 +17,7 @@
     </parent>
     <properties>
         <tomcat.version>8.0.3</tomcat.version>
+        <jbpm.version>6.2.0.Final</jbpm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -31,17 +32,157 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.1.0.Final</version>
-        </dependency>
+
 
         <!-- The tutorials use the PostgreSQL 9.3.5 database -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4-1201-jdbc41</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-api</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-internal</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-persistence-jpa</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-flow</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-flow-builder</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-bpmn2</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-audit</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-persistence-jpa</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-core</artifactId>
+            <version>${jbpm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+                    <groupId>org.jboss.spec.javax.annotation</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-jpa</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-workitems</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-human-task-audit</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-runtime-manager</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-services-api</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-kie-services</artifactId>
+            <version>${jbpm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>freemarker</artifactId>
+                    <groupId>org.freemarker</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>javassist</artifactId>
+                    <groupId>javassist</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jbpm</groupId>
+            <artifactId>jbpm-workitems</artifactId>
+            <version>${jbpm.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <version>${jbpm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>drools-decisiontables</artifactId>
+                    <groupId>org.drools</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>drools-templates</artifactId>
+                    <groupId>org.drools</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <version>1.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
     </dependencies>
     <build>

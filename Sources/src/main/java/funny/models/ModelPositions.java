@@ -48,7 +48,7 @@ public class ModelPositions extends ModelMain {
     public static void updatePosition(int id,String name,int role) {
         Session dbsession = HibernateSessionFactory.getSessionFactory().getCurrentSession();
         dbsession.beginTransaction();
-        Position pos = dbsession.get(Position.class, id);
+        Position pos = (Position)dbsession.get(Position.class, id);
         pos.setName(name);
         pos.setRole(role);
         dbsession.update(pos);
