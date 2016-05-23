@@ -3,9 +3,11 @@ package funny.controllers;
 import funny.Base;
 import funny.DB;
 import funny.entity.Department;
+import funny.entity.Employer;
 import funny.entity.Position;
 import funny.entity.Schedule;
 import funny.models.ModelDepartments;
+import funny.models.ModelMain;
 import funny.models.ModelPositions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +28,11 @@ public class Positions extends Base {
     @RequestMapping("/positions")
     public String positions(Model model) throws SQLException {
         putModel(model);
-        ArrayList<String> breads = setBreadcrumbs();
-        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
+        //model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
         List<Position> list = ModelPositions.getPositions();
         model.addAttribute("table", list);
+        Employer e = (Employer) getSession().getAttribute("emp");
+        model.addAttribute("role", ModelMain.getRole(e.getEmployerId()));
         return "positions";
     }
 
@@ -41,11 +44,9 @@ public class Positions extends Base {
             ModelPositions.updatePosition(Integer.parseInt(id),newname, Integer.parseInt(role));
         }
         putModel(model);
-        Position p = ModelPositions.getPosition(Integer.parseInt(id));
-        ArrayList<String> breads = setBreadcrumbs();
-        breads.add("<a href=\"/positions/edit?id="+p.getPositionId()+"\">"+p.getName()+"</a>");
-        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
-        model.addAttribute("info", p);
+        model.addAttribute("breadcrumbs",getBreadcrumbs(setBreadcrumbs()));
+        model.addAttribute("info", ModelPositions.getPosition(Integer.parseInt(id)));
+
         return "edit_positions";
     }
 
@@ -64,10 +65,6 @@ public class Positions extends Base {
             ModelPositions.add(name,Integer.parseInt(role));
             return "redirect:/positions";
         }
-        putModel(model);
-        ArrayList<String> breads = setBreadcrumbs();
-        breads.add("<a href=\"/positions/add\">Новая должность</a>");
-        model.addAttribute("breadcrumbs",getBreadcrumbs(breads));
         return "add_position";
     }
 
